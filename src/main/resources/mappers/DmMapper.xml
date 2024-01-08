@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.greengram3.dm.DmMapper">
+    <!--//////////////////////////////////   t_dm -->
+    <insert id="insDm" useGeneratedKeys="true" keyProperty="idm">
+       INSERT INTO t_dm
+       SET last_msg = NULL
+    </insert>
+
+    <select id="selDmAll">
+        SELECT
+              A.idm, A.last_msg AS lastMsg, A.last_msg_at AS lastMsgAt
+            , D.iuser AS otherPersonIuser, D.nm AS otherPersonNm, D.pic AS otherPersonPic
+        FROM t_dm A
+        INNER JOIN t_dm_user B
+        ON A.idm = B.idm
+        INNER JOIN t_dm_user C
+        ON B.idm = C.idm
+        INNER JOIN t_user D
+        ON C.iuser = D.iuser
+        WHERE B.iuser = #{loginedIuser}
+        AND C.iuser != #{loginedIuser}
+        ORDER BY A.last_msg_at DESC
+        LIMIT #{startIdx}, #{rowCount}
+    </select>
+
+    <!-- -->
+    <select id="selOtherPersonByLoginUser">
+        SELECT B.iuser, B.pic, B.firebase_token AS firebaseToken
+        FROM t_dm_user A
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        WHERE A.idm = #{idm}
+        AND A.iuser != #{loginedIuser}
+    </select>
+
+
+    <update id="updDmLastMsg">
+        UPDATE t_dm
+        SET last_msg = #{msg}
+        WHERE idm = #{idm}
+    </update>
+
+    <update id="updDmLastMsgAfterDelByLastMsg">
+        UPDATE t_dm A
+        INNER JOIN (
+            SELECT idm, msg, created_at
+            FROM t_dm_msg
+            WHERE idm = #{idm}
+            ORDER BY seq DESC
+            LIMIT 1
+        ) B
+        ON A.idm = B.idm
+        SET A.last_msg = B.msg
+        , A.last_msg_at = B.created_at
+        WHERE A.idm = #{idm}
+    </update>
+
+    <!--//////////////////////////////////   t_dm_user -->
+    <insert id="insDmUser">
+        INSERT INTO t_dm_user
+        ( idm, iuser )
+        VALUES
+        ( #{idm}, #{loginedIuser} ),
+        ( #{idm}, #{otherPersonIuser} )
+    </insert>
+
+    <select id="selDmUserCheck">
+        SELECT idm
+        FROM t_dm_user
+        WHERE iuser = #{loginedIuser}
+        OR iuser = #{otherPersonIuser}
+        GROUP BY idm
+        HAVING COUNT(idm) = 2
+    </select>
+
+    <!--//////////////////////////////////   t_dm_msg -->
+    <insert id="insDmMsg">
+        <selectKey resultType="int" keyProperty="seq" order="BEFORE">
+            SELECT IFNULL(MAX(seq), 0) + 1
+            FROM t_dm_msg
+            WHERE idm = #{idm}
+        </selectKey>
+        INSERT INTO t_dm_msg
+        SET idm = #{idm}
+        , seq = #{seq}
+        , iuser = #{loginedIuser}
+        , msg = #{msg}
+    </insert>
+
+    <select id="selDmMsgAll">
+        SELECT
+              A.seq, A.msg, A.created_at AS createdAt
+            , B.iuser AS writerIuser, B.pic AS writerPic
+        FROM t_dm_msg A
+        INNER JOIN t_user B
+        ON A.iuser = B.iuser
+        WHERE A.idm = #{idm}
+        ORDER BY A.seq DESC
+        LIMIT #{startIdx}, #{rowCount}
+    </select>
+
+    <delete id="delDmMsg">
+        DELETE FROM t_dm_msg
+        WHERE idm = #{idm}
+        AND seq = #{seq}
+        AND iuser = #{iuser}
+    </delete>
+</mapper>

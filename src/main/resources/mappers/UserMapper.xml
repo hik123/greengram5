@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.greengram3.user.UserMapper">
+    <insert id="insUser" useGeneratedKeys="true" keyProperty="iuser">
+        INSERT INTO t_user
+        SET uid = #{uid}
+        , upw = #{upw}
+        , nm = #{nm}
+        , pic = #{pic}
+    </insert>
+
+    <select id="selUser">
+        SELECT iuser, uid, upw, nm, pic, created_at AS createdAt, updated_at AS updatedAt
+        FROM t_user
+        <where>
+            <if test=" uid != null and uid != '' ">
+                uid = #{uid}
+            </if>
+            <if test=" iuser > 0 ">
+                iuser = #{iuser}
+            </if>
+        </where>
+    </select>
+
+    <!--
+    followState값
+    0 - 둘 다 follow 안 함
+    1 - loginedIuser가 targetIuser를 팔로우
+    2 - targetIuser가 loginedIuser를 팔로우
+    3 - 둘 다 follow
+    -->
+    <select id="selUserInfo">
+        SELECT A.nm, A.pic, A.created_at AS createdAt
+        , COUNT(DISTINCT B.ifeed) AS feedCnt
+        , COUNT(C.ifeed) AS favCnt
+        , D.following, D.follower, D.followState
+        FROM t_user A
+        LEFT JOIN t_feed B
+        ON A.iuser = B.iuser
+        LEFT JOIN t_feed_fav C
+        ON B.ifeed = C.ifeed
+        INNER JOIN (
+            SELECT
+                  SUM(IF(from_iuser = #{targetIuser}, 1, 0)) AS following
+                , SUM(IF(to_iuser = #{targetIuser}, 1, 0)) AS follower
+                , (
+                      SUM(IF(from_iuser = #{loginedIuser} AND to_iuser = #{targetIuser}, 1, 0))
+                    + SUM(IF(from_iuser = #{targetIuser} AND to_iuser = #{loginedIuser}, 2, 0))
+                ) AS followState
+            FROM t_user_follow
+        ) AS D
+        WHERE A.iuser = #{targetIuser}
+    </select>
+
+
+    <update id="updUserFirebaseToken">
+        UPDATE t_user
+        SET firebase_token = #{firebaseToken}
+        WHERE iuser = #{iuser}
+    </update>
+
+    <update id="updUserPic">
+        UPDATE t_user
+        SET pic = #{pic}
+        WHERE iuser = #{iuser}
+    </update>
+
+
+    <!--  t_user_follow -->
+    <insert id="insUserFollow">
+        INSERT INTO t_user_follow
+        SET from_iuser = #{fromIuser}
+        , to_iuser = #{toIuser}
+    </insert>
+
+    <delete id="delUserFollow">
+        DELETE FROM t_user_follow
+        WHERE from_iuser = #{fromIuser}
+        AND to_iuser = #{toIuser}
+    </delete>
+</mapper>

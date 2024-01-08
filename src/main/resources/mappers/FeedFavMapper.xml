@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.greengram3.feed.FeedFavMapper">
+    <insert id="insFeedFav">
+        INSERT INTO t_feed_fav
+        SET ifeed = #{ifeed}
+        , iuser = #{iuser}
+    </insert>
+
+    <select id="selFeedFavForTest">
+        SELECT ifeed, iuser
+        FROM t_feed_fav
+        WHERE ifeed = #{ifeed}
+        <if test="iuser > 0">
+            AND iuser = #{iuser}
+        </if>
+    </select>
+
+    <delete id="delFeedFav">
+        DELETE FROM t_feed_fav
+        WHERE ifeed = #{ifeed}
+        AND iuser = #{iuser}
+    </delete>
+
+    <delete id="delFeedByFav">
+        DELETE FROM t_feed_fav
+        WHERE ifeed = #{ifeed}
+    </delete>
+
+</mapper>
