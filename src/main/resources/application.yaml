@@ -1,4 +1,4 @@
-springboot:
+app:
   jwt:
     secret: DaeguGreenArtAcademyClass502RoomForJavaSpringBootFighting
     header-schema-name: authorization
