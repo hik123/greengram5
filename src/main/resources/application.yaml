@@ -27,3 +27,11 @@ server:
 fcm:
   certification: serviceAccountKey.json
 
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+  datasource:
+    url: jdbc:mariadb://192.168.0.144:55/greengram3
