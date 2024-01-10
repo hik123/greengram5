@@ -41,15 +41,16 @@ public class DmService {
 
         UserSelDto usDto = new UserSelDto();
         usDto.setIuser(dto.getOtherPersonIuser());
-
         UserEntity userEntity = userMapper.selUser(usDto);
 
-        return DmSelVo.builder()
+        DmSelVo vo = DmSelVo.builder()
                 .idm(dto.getIdm())
                 .otherPersonIuser(userEntity.getIuser())
                 .otherPersonNm(userEntity.getNm())
                 .otherPersonPic(userEntity.getPic())
                 .build();
+        log.info("vo : {}", vo);
+        return vo;
     }
 
     public ResVo postDmMsg(DmMsgInsDto dto) {
@@ -78,21 +79,25 @@ public class DmService {
 
                 //object to json
                 String body = objMapper.writeValueAsString(pushVo);
+                log.info("pushVo: {}", pushVo);
                 log.info("body: {}", body);
+
                 Notification noti = Notification.builder()
                         .setTitle("dm")
                         .setBody(body)
                         .build();
 
                 Message message = Message.builder()
+                        .putData("type", "dm")
+                        .putData("json", body)
                         .setToken(otherPerson.getFirebaseToken())
-
-                        .setNotification(noti)
+                        //.setNotification(noti)
                         .build();
 
-                FirebaseMessaging.getInstance().sendAsync(message);
+                //FirebaseMessaging.getInstance().sendAsync(message);
+                FirebaseMessaging fm = FirebaseMessaging.getInstance();
+                fm.sendAsync(message);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -17,12 +17,13 @@ public class FeedCommentService {
     private final FeedCommentMapper mapper;
 
     public ResVo postFeedComment(FeedCommentInsDto dto) {
-        int affectedRow = mapper.insFeedComment(dto);
-        //pk값 리턴
+        int affectedRows = mapper.insFeedComment(dto);
         return new ResVo(dto.getIfeedComment());
     }
 
     public List<FeedCommentSelVo> getFeedCommentAll(FeedCommentSelDto dto) {
+        dto.setStartIdx(3);
+        dto.setRowCount(999);
         return mapper.selFeedCommentAll(dto);
-    };
+    }
 }

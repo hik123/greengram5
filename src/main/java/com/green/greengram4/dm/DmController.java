@@ -21,8 +21,6 @@ public class DmController {
         return service.getDmAll(dto);
     }
 
-    //idm, iuser (2)
-    //iuser 2개 (2)
     @PostMapping
     public DmSelVo postDm(@RequestBody DmInsDto dto) {
         return service.postDm(dto);

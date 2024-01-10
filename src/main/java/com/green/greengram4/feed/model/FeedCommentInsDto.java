@@ -7,8 +7,8 @@ import lombok.Data;
 public class FeedCommentInsDto {
     @JsonIgnore
     private int ifeedComment;
-
-    private int ifeed;
     private int iuser;
+    private int ifeed;
     private String comment;
 }
+

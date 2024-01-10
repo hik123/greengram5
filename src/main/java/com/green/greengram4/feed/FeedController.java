@@ -1,11 +1,12 @@
 package com.green.greengram4.feed;
 
-
 import com.green.greengram4.common.ResVo;
 import com.green.greengram4.feed.model.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +14,9 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/api/feed")
-@Tag(name = "피드 API", description = "피드 관련 처리") // description 에서 <br> >> 개행
+@Tag(name = "피드 API", description = "피드 관련 처리")
 public class FeedController {
     private final FeedService service;
 
@@ -23,31 +24,36 @@ public class FeedController {
     @PostMapping
     public ResVo postFeed(@RequestBody FeedInsDto dto) {
         ResVo vo = service.postFeed(dto);
+        System.out.println(vo.getResult());
         return vo;
     }
 
-    @Operation(summary = "피드 리스트", description = "전체 피드 리스트")
     @GetMapping
+    @Operation(summary = "피드 리스트", description = "전체 피드 리스트, 특정 사용자 프로필 화면에서 사용할 피드 리스트, 한 페이지 30개 피드 가져옴" +
+            "<br><br>page: 페이지<br>loginedIuser: 로그인한 유저 pk")
     public List<FeedSelVo> getFeedAll(FeedSelDto dto) {
-        /*FeedSelDto dto = FeedSelDto.builder()    // builder패턴 쓰면 객체화 불가능
-                .rowCount(Const.FEED_COUNT_PER_PAGE)
-                .startIdx((page-1) * Const.FEED_COUNT_PER_PAGE)
-                .build();
-        return service.getFeedAll(dto); */
+        log.info("dto: {}", dto);
+        //return service.getFeedAll(dto);
+
         List<FeedSelVo> list = service.getFeedAll(dto);
+        log.info("list: {}", list);
         return list;
     }
 
-    @GetMapping("/fav")
-    public ResVo toggleFeedFav(FeedFavDto dto) {
-        return service.toggleFeedFav(dto);
+    @DeleteMapping
+    public ResVo delFeed(FeedDelDto dto) {
+        log.info("dto: {}", dto);
+        return service.delFeed(dto);
     }
 
-    //ifeed, iuser
-    @DeleteMapping
-    public ResVo DelFeed(FeedDelDto dto) {
+
+    @GetMapping("/fav")
+    @Operation(summary = "좋아요 toggle", description = "toggle로 처리함<br>")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 처리: result(1), 좋아요 취소: result(2)")
+    })
+    public ResVo toggleFeedFav(FeedFavDto dto) {
         log.info("dto : {}", dto);
-        ResVo vo = service.DelFeed(dto);
-        return vo;
+        return service.toggleFeedFav(dto);
     }
 }

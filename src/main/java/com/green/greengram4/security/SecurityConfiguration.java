@@ -3,9 +3,7 @@ package com.green.greengram4.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,17 +23,17 @@ public class SecurityConfiguration {
                 .formLogin(form -> form.disable())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/signin"
-                                , "/api/user/signup"
-                                , "/error"
-                                , "/err"
-                                , "/"
-                                , "/index.html"
-                                , "/static/**"
-                                , "/swagger.html"
-                                , "/swagger-ui/**"
-                                , "/v3/api-docs/**"
-                                ).permitAll()
-                                .anyRequest().authenticated()
+                                                                    , "/api/user/signup"
+                                                                    , "/error"
+                                                                    , "/err"
+                                                                    , "/"
+                                                                    , "/index.html"
+                                                                    , "/static/**"
+                                                                    , "/swagger.html"
+                                                                    , "/swagger-ui/**"
+                                                                    , "/v3/api-docs/**"
+                                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(except -> {

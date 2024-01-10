@@ -5,8 +5,6 @@ import lombok.Data;
 
 @Data
 public class DmMsgInsDto {
-
-
     private int idm;
     @JsonIgnore
     private int seq;

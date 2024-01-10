@@ -16,24 +16,20 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/**")
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver() {
-                    @Override
-                    protected Resource getResource(String resourcePath, Resource location) throws IOException {
-                        Resource requestedResource = location.createRelative(resourcePath);
-                        // If we actually hit a file, serve that. This is stuff like .js and .css files.
-                        if (requestedResource.exists() && requestedResource.isReadable()) {
-                            return requestedResource;
-                        }
-                        // Anything else returns the index.
-                        return new ClassPathResource("/static/index.html");
-                    }
-                });
+        .addResourceHandler("/**")
+        .addResourceLocations("classpath:/static/**")
+        .resourceChain(true)
+        .addResolver(new PathResourceResolver() {
+            @Override
+            protected Resource getResource(String resourcePath, Resource location) throws IOException {
+                Resource requestedResource = location.createRelative(resourcePath);
+                // If we actually hit a file, serve that. This is stuff like .js and .css files.
+                if (requestedResource.exists() && requestedResource.isReadable()) {
+                    return requestedResource;
+                }
+                // Anything else returns the index.
+                return new ClassPathResource("/static/index.html");
+            }
+        });
     }
 }
-
-
-
-

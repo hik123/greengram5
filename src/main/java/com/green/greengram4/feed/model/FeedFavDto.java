@@ -1,6 +1,5 @@
 package com.green.greengram4.feed.model;
 
-
 import lombok.Data;
 
 @Data

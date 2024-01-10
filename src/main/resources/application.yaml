@@ -1,7 +1,7 @@
 app:
   jwt:
     secret: DaeguGreenArtAcademyClass502RoomForJavaSpringBootFighting
-    header-schema-name: authorization
+    header-scheme-name: authorization
     token-type: Bearer
     access-token-expiry: 7200000
     refresh-token-expiry: 1296000000
@@ -26,12 +26,3 @@ server:
 
 fcm:
   certification: serviceAccountKey.json
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: "prod"
-  datasource:
-    url: jdbc:mariadb://192.168.0.144:55/greengram3

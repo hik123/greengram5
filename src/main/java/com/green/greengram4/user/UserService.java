@@ -19,13 +19,10 @@ public class UserService {
     private final UserMapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final AppProperties appProperties;
 
     public ResVo signup(UserSignupDto dto) {
-
-        //String hashedPw = BCrypt.hashpw(dto.getUpw(), salt);
-        //비밀번호 암호화
         String hashedPw = passwordEncoder.encode(dto.getUpw());
+        //비밀번호 암호화
 
         UserSignupProcDto pDto = new UserSignupProcDto();
         pDto.setUid(dto.getUid());
@@ -47,17 +44,18 @@ public class UserService {
         UserEntity entity = mapper.selUser(sDto);
         if(entity == null) {
             return UserSigninVo.builder().result(Const.LOGIN_NO_UID).build();
-        //} else if(!BCrypt.checkpw(dto.getUpw(), entity.getUpw())) {
-        } else if(!passwordEncoder.matches(dto.getUpw(), entity.getUpw())){
+        } else if(!passwordEncoder.matches(dto.getUpw(), entity.getUpw())) {
             return UserSigninVo.builder().result(Const.LOGIN_DIFF_UPW).build();
         }
 
         MyPrincipal myPrincipal = MyPrincipal.builder()
-                .iuser(sDto.getIuser())
-                .build();
+                                            .iuser(entity.getIuser())
+                                            .build();
 
         String at = jwtTokenProvider.generateAccessToken(myPrincipal);
         String rt = jwtTokenProvider.generateRefreshToken(myPrincipal);
+
+        //rt > cookie에 담을꺼임
 
         return UserSigninVo.builder()
                 .result(Const.SUCCESS)
@@ -82,6 +80,7 @@ public class UserService {
         int affectedRows = mapper.updUserPic(dto);
         return new ResVo(affectedRows);
     }
+
     public ResVo toggleFollow(UserFollowDto dto) {
         int delAffectedRows = mapper.delUserFollow(dto);
         if(delAffectedRows == 1) {

@@ -11,7 +11,6 @@ public interface DmMapper {
     //----------------------- t_dm
     int insDm(DmInsDto dto);
     List<DmSelVo> selDmAll(DmSelDto dto);
-
     UserEntity selOtherPersonByLoginUser(DmMsgInsDto dto);
     int updDmLastMsg(DmMsgInsDto dto);
     int updDmLastMsgAfterDelByLastMsg(DmMsgDelDto dto);

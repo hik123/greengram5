@@ -1,6 +1,5 @@
 package com.green.greengram4.common;
 
-
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -17,7 +16,6 @@ import java.io.InputStream;
 public class FirebaseConfiguration {
 
     @Value("${fcm.certification}")
-
     private String googleApplicationCredentials;
 
     @PostConstruct
