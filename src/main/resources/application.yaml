@@ -7,7 +7,15 @@ app:
     refresh-token-expiry: 1296000000
 
 
+file:
+  dir: D/:download/greengram4/
+
+
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 15MB
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/greengram3

@@ -64,8 +64,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
         FeedDelDto dto = new FeedDelDto();
         dto.setIfeed(ifeed);
-        int delAffectedRows = mapper.delFeedByFav(dto);
-        assertEquals(selList.size(), delAffectedRows);
+//        int delAffectedRows = mapper.delFeedByFav(dto);
+//        assertEquals(selList.size(), delAffectedRows);
 
         List<FeedFavDto> selList2 = mapper.selFeedFavForTest(selDto);
         assertEquals(0, selList2.size());

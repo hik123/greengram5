@@ -32,7 +32,7 @@ public class FeedIntegrationTest extends BaseIntegrationTest {
         List<String> pics = new ArrayList<>();
         pics.add("https://ko.skyticket.com/guide/wp-content/uploads/2021/07/shutterstock_667925704-2fff.jpg");
         pics.add("https://www.jal.co.jp/kr/ko/guide-to-japan/plan-your-trip/tips/the-climate-seasons-and-weather-in-japan/_jcr_content/root/responsivegrid/sectioncontainer/image_1198557977_cop_876141487.coreimg.jpeg/1674436275739.jpeg");
-        dto.setPics(pics);
+//        dto.setPics(pics);
         // 레퍼런스 << 주소값 저장, 프러머티브 << 값이 저장됨
 
         String json = om.writeValueAsString(dto);

@@ -7,6 +7,7 @@ import com.green.greengram4.security.AuthenticationFaCade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class FeedService {
     private final FeedFavMapper favMapper;
     private final FeedCommentMapper commentMapper;
     private final AuthenticationFaCade authenticationFaCade;
+    //
 
 
     public ResVo postFeed(FeedInsDto dto) {

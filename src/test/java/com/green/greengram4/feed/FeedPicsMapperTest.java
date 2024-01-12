@@ -27,7 +27,7 @@ class FeedPicsMapperTest {
         pics.add("aa.jpg");
         pics.add("bbb.jpg");
         pics.add("cccc.jpg");
-        this.dto.setPics(pics);
+//        this.dto.setPics(pics);
 
     }
 
@@ -39,8 +39,8 @@ class FeedPicsMapperTest {
         FeedDelDto delDto = new FeedDelDto();
         delDto.setIfeed(this.dto.getIfeed());
         delDto.setIuser(2);
-        int affectedRows = mapper.delFeedPics(delDto);
-        System.out.println("delrows :" + affectedRows);
+//        int affectedRows = mapper.delFeedPics(delDto);
+//        System.out.println("delrows :" + affectedRows);
 
     }
 

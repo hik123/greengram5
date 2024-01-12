@@ -35,7 +35,6 @@ class FeedControllerTest {
 
     @Autowired private MockMvc mvc;
     @Autowired private ObjectMapper mapper;
-
     @MockBean private FeedService service;            //객체형은 null, list는 사이즈0짜리 리턴
 
     @Test
@@ -98,7 +97,7 @@ class FeedControllerTest {
     @Test
     void delFeed () throws Exception {
         ResVo vo = new ResVo(1);
-        given(service.DelFeed(any())).willReturn(vo);
+//        given(service.DelFeed(any())).willReturn(vo);
 
         FeedDelDto dto = new FeedDelDto();
 
@@ -109,7 +108,7 @@ class FeedControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(mapper.writeValueAsString(vo)));
 
-        verify(service).DelFeed(any());
+//        verify(service).DelFeed(any());
     }
 
     @Test

@@ -18,5 +18,11 @@ public class AppProperties {
         private String tokenType;
         private long accessTokenExpiry;
         private long refreshTokenExpiry;
+        private int refreshTokenCookieMaxAge;
+
+        public void setRefreshTokenExpiry(long refreshTokenExpiry) {
+            this.refreshTokenExpiry = refreshTokenExpiry;
+            this.refreshTokenCookieMaxAge = (int) refreshTokenExpiry / 1000;
+        }
     }
 }
