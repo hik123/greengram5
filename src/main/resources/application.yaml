@@ -8,7 +8,7 @@ app:
 
 
 file:
-  dir: D/:download/greengram4/
+  dir: D:/download/greengram4/
 
 
 spring:
@@ -18,7 +18,7 @@ spring:
       max-request-size: 15MB
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/greengram3
+    url: jdbc:mariadb://localhost:3306/greengram4
     username: root
     password: green502
 

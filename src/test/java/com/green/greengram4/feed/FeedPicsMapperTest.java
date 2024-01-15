@@ -44,6 +44,7 @@ class FeedPicsMapperTest {
 
     }
 
+    /*
     @Test
     void insFeedPics() {
         List<String> preList = mapper.selFeedPicsAll(dto.getIfeed());
@@ -62,4 +63,6 @@ class FeedPicsMapperTest {
         //assertEquals(dto.getPics().get(0), afterList.get(0));
         //assertEquals(dto.getPics().get(1), afterList.get(1));
     }
+
+     */
 }

@@ -1,17 +1,22 @@
 package com.green.greengram4.common;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@Slf4j
 @ExtendWith(SpringExtension.class)
 @Import({ MyFileUtils.class })
 @TestPropertySource(properties = {
@@ -67,4 +72,14 @@ public class MyFileUtilsTest {
     }
 
 
+    @Test
+    public void transferToTest() throws Exception {
+        String fileNm = "asdf1212.png";
+        String filePath = "D:/home/download/ggg/" + fileNm;
+        FileInputStream fis = new FileInputStream(filePath);
+        MultipartFile mf = new MockMultipartFile("pic", fileNm, "png", fis);
+
+        String svaeFileNm = myFileUtils.transferTo(mf, "/feed/10"); //저장하고싶은경로
+        log.info("myFileUtils: {}", svaeFileNm);
+    }
 }
