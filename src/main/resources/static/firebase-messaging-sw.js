@@ -50,7 +50,7 @@ self.addEventListener('push', function (event) {
 messaging.onBackgroundMessage(function(payload) {
  // console.log('Received background message ', payload);
  // Customize notification here
-  /*
+  
  self.clients.matchAll({
    type: 'window',
    includeUncontrolled: true
@@ -59,7 +59,22 @@ messaging.onBackgroundMessage(function(payload) {
    client.postMessage(payload);
    // client.postMessage("Responding to ");
   }))
- */
+ 
+console.log('onBackgroundMessage!!!');
+
+const { type, json } = payload.data;
+let title = null;
+let body = null;
+let icon = null;
+const data = JSON.parse(json);
+switch(type) {
+  case 'dm':
+    title = 'Direct Message';
+    body = data.msg;
+    icon = data.writerPic;
+    break;
+}
+/*
  const notificationTitle = payload.notification.title;
   
   let title = '';
@@ -70,11 +85,10 @@ messaging.onBackgroundMessage(function(payload) {
       const jsonData = JSON.parse(payload.notification.body);
       body = jsonData.msg;
       break;
-  }
+  }*/
 
-  const notificationOptions = {
-    body: body,
-  };
+  const notificationOptions = { body, icon };
+
 
   self.registration.showNotification(title, notificationOptions);
 });
@@ -86,4 +100,11 @@ Uncaught (in promise) DOMException: Failed to execute 'subscribe' on 'PushManage
 
 
 */
+
+self.addEventListener("notificationclick", function (event) {
+  console.log("notification click");
+  const url = "http://localhost:3000";
+  event.notification.close();
+  event.waitUntil(clients.openWindow(url));
+});
 

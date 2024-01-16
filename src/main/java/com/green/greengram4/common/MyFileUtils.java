@@ -58,10 +58,24 @@ public class MyFileUtils {
             mf.transferTo(saveFile); // transferTo에 파일객체 보내면 메모리에 있던 내용 파일 옮겨줌
             return fileNm; // 랜덤한 파일명 넘겨줌 // 보통 경로는 저장안하고 파일명만 db에 저장? 저장해도 상관없긴하지만 경로바뀌더라도 db는 안건드려도되서
                                 // 절대값으로 지정하면안됨 //파일경로 다적음 <<절대경로
-                                // D:\home\download가 시작점일때 시작점 부터(이후)의 경로 >> 상대경로
+                                // D:/home/download가 시작점일때 시작점 부터(이후)의 경로 >> 상대경로
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+    public void delFiles(String folderPath) { // 폴더 아래에 폴더 및 파일 삭제, 보냈는 폴더는 삭제 안함
+        File folder = new File(uploadPrefixPath, folderPath);
+        if(folder.exists()) {
+            File[] files = folder.listFiles();
+
+            for(File file : files) {
+                if(file.isDirectory()) {
+                    delFiles(file.getAbsolutePath());
+                }
+                file.delete();
+            }
+        }
+    }
+
 }

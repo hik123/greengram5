@@ -28,6 +28,13 @@ public class SecurityConfiguration {
                                                                     , "/error"
                                                                     , "/err"
                                                                     , "/"
+                                                                    , "/profile/**"
+                                                                    , "/pic/**"        // 슬래시, /** 빠졌는지 확인
+                                                                    , "/feed/**"
+                                                                    , "/feed"
+                                                                    , "/fimg/**"
+                                                                    , "/css/**"
+                                                                    , "/static/**"
                                                                     , "/index.html"
                                                                     , "/static/**"
                                                                     , "/swagger.html"

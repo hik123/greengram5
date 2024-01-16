@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticationFaCade {
-    public MyUserDetails getLogineuser() {
+    public MyUserDetails getLoginUser() {
 
         return (MyUserDetails)SecurityContextHolder
                                 .getContext()
@@ -18,6 +18,6 @@ public class AuthenticationFaCade {
 
     public int getLoginUserPk() {
 
-        return getLogineuser().getMyPrincipal().getIuser();
+        return getLoginUser().getMyPrincipal().getIuser();
     }
 }

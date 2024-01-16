@@ -1,6 +1,7 @@
 package com.green.greengram4.user;
 
 import com.green.greengram4.common.*;
+import com.green.greengram4.security.AuthenticationFaCade;
 import com.green.greengram4.security.JwtTokenProvider;
 import com.green.greengram4.security.MyPrincipal;
 import com.green.greengram4.user.model.*;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -23,7 +25,8 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AppProperties appProperties;
     private final CookieUtils cookieUtils;
-
+    private final AuthenticationFaCade authenticationFaCade;
+    private final MyFileUtils myFileUtils;
     public ResVo signup(UserSignupDto dto) {
         String hashedPw = passwordEncoder.encode(dto.getUpw());
         //비밀번호 암호화
@@ -110,9 +113,17 @@ public class UserService {
         return new ResVo(affectedRows);
     }
 
-    public ResVo patchUserPic(UserPicPatchDto dto) {
+    public UserPicPatchDto patchUserPic(MultipartFile pic) {
+        UserPicPatchDto dto = new UserPicPatchDto();
+        dto.setIuser(authenticationFaCade.getLoginUserPk());
+
+
+        String target = "user/" + dto.getIuser();  //파일 경로
+        //myFileUtils.transferTo(pic, target);
+        dto.setPic(myFileUtils.transferTo(pic, target));
+
         int affectedRows = mapper.updUserPic(dto);
-        return new ResVo(affectedRows);
+        return dto;
     }
 
     public ResVo toggleFollow(UserFollowDto dto) {
