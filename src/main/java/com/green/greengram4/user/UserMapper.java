@@ -12,6 +12,7 @@ public interface UserMapper {
     int updUserFirebaseToken(UserFirebaseTokenPatchDto dto);
     int updUserPic(UserPicPatchDto dto);
 
+
     int insUserFollow(UserFollowDto dto);
     int delUserFollow(UserFollowDto dto);
 }

@@ -30,7 +30,7 @@ public class FirebaseConfiguration {
                 log.info("FirebaseApp Initialization Complete !!!");
                 FirebaseApp.initializeApp(options);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

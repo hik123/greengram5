@@ -1,5 +1,7 @@
 package com.green.greengram4.user;
 
+import com.green.greengram4.Exception.AuthErrorCode;
+import com.green.greengram4.Exception.RestApiException;
 import com.green.greengram4.common.*;
 import com.green.greengram4.security.AuthenticationFaCade;
 import com.green.greengram4.security.JwtTokenProvider;
@@ -48,13 +50,14 @@ public class UserService {
 
 
         UserSelDto sDto = new UserSelDto();
+
         sDto.setUid(dto.getUid());
 
         UserEntity entity = mapper.selUser(sDto);
-        if(entity == null) {
-            return UserSigninVo.builder().result(Const.LOGIN_NO_UID).build();
+        if(entity == null) { //아이디없음
+            throw new RestApiException(AuthErrorCode.NOT_EXIST_USER_ID);
         } else if(!passwordEncoder.matches(dto.getUpw(), entity.getUpw())) {
-            return UserSigninVo.builder().result(Const.LOGIN_DIFF_UPW).build();
+            throw new RestApiException(AuthErrorCode.VALID_PASSWORD);
         }
 
         MyPrincipal myPrincipal = MyPrincipal.builder()
@@ -116,11 +119,12 @@ public class UserService {
     public UserPicPatchDto patchUserPic(MultipartFile pic) {
         UserPicPatchDto dto = new UserPicPatchDto();
         dto.setIuser(authenticationFaCade.getLoginUserPk());
-
-
-        String target = "user/" + dto.getIuser();  //파일 경로
+        String path = "user/" + dto.getIuser();
+        myFileUtils.delFolderTrigger(path);
+        String savedPicFileNm = myFileUtils.transferTo(pic, path);
+        //String target = "user/" + dto.getIuser();  //파일 경로
         //myFileUtils.transferTo(pic, target);
-        dto.setPic(myFileUtils.transferTo(pic, target));
+        dto.setPic(savedPicFileNm);
 
         int affectedRows = mapper.updUserPic(dto);
         return dto;
@@ -134,4 +138,5 @@ public class UserService {
         int insAffectedRows = mapper.insUserFollow(dto);
         return new ResVo(Const.SUCCESS);
     }
+
 }
