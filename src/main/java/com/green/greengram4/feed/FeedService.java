@@ -1,5 +1,7 @@
 package com.green.greengram4.feed;
 
+import com.green.greengram4.Exception.FeedErrorCode;
+import com.green.greengram4.Exception.RestApiException;
 import com.green.greengram4.common.Const;
 import com.green.greengram4.common.MyFileUtils;
 import com.green.greengram4.common.ResVo;
@@ -27,6 +29,10 @@ public class FeedService {
 
 
     public FeedPicsInsDto postFeed(FeedInsDto dto) {
+        if(dto.getPics() == null) {
+            throw new RestApiException(FeedErrorCode.PICS_MORE_THEN_ONE);
+        }
+
         dto.setIuser(authenticationFaCade.getLoginUserPk());
         log.info("dto : {}", dto);
         int feedAffectedRows = mapper.insFeed(dto);
