@@ -41,7 +41,7 @@ class FeedControllerTest {
     void postFeed() throws Exception {
         ResVo result = new ResVo(2);
         //when(service.postFeed(any())).thenReturn(result);
-        given(service.postFeed(any())).willReturn(result);  //when given 성능은 똑같
+        //given(service.postFeed(any())).willReturn(result);  //when given 성능은 똑같
 
         FeedInsDto dto = new FeedInsDto();
 
