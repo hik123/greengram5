@@ -15,8 +15,8 @@ public class FeedCommentInsDto {
 
     @Min(1)
     private int ifeed;
-    @NotEmpty //null 이거나 "" 비어있으면안됨
-    @Size(min = 3)
+    @NotEmpty(message = "댓글 내용 입력 해주세요") //null 이거나 "" 비어있으면안됨
+    @Size(min = 3, message = "댓글 내용은 3자리 이상")
     private String comment;
 }
 

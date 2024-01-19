@@ -2,10 +2,16 @@ package com.green.greengram4.Exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -15,6 +21,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {  //
         log.warn("IllegalArgumentException", e);
         return handleExceptionInternal(CommonErrorCode.INVALID_PARAMETER);
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> MethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.warn("MethodArgumentNotValidException", e);
+        /*
+        List<String> errors = new ArrayList();
+        for(FieldError lfe : e.getBindingResult().getFieldErrors()) {
+            errors.add(lfe.getDefaultMessage());
+        }
+        */
+
+        List<String> errors = e.getBindingResult()
+                                .getFieldErrors()
+                                .stream()
+                                .map(lfe -> lfe.getDefaultMessage())
+
+                                .collect(Collectors.toList());    //stream().map()사이즈 똑같  stream().fillter()사이즈 달라질수ㅜ다
+        String errStr = "[" + String.join(",", errors) + "]";
+        return handleExceptionInternal(CommonErrorCode.INVALID_PARAMETER, errors.toString());
+    }
+
     private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
         return handleExceptionInternal(errorCode, null);
     }

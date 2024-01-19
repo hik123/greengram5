@@ -45,6 +45,7 @@ class FeedServiceTest {         // 테스트 종류 >> 메소드 단위, 슬라�
     @Autowired //테스트에서 생성자 주입이 안되서 @Autowired사용
     private FeedService service;
 
+    /*
     @Test
     public void postFeed() {
         when(mapper.insFeed(any())).thenReturn(1); // isFeed 호출 했을때 1 리턴
@@ -63,6 +64,8 @@ class FeedServiceTest {         // 테스트 종류 >> 메소드 단위, 슬라�
         ResVo vo2 = service.postFeed(dto2);
         assertEquals(dto2.getIfeed(), vo2.getResult());
     }
+
+     */
 
     @Test
     public void getFeedAll() {

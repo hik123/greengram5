@@ -29,12 +29,8 @@ public class FeedService {
 
 
     public FeedPicsInsDto postFeed(FeedInsDto dto) {
-        if(dto.getPics() == null) {
-            throw new RestApiException(FeedErrorCode.PICS_MORE_THEN_ONE);
-        }
-
         dto.setIuser(authenticationFaCade.getLoginUserPk());
-        log.info("dto : {}", dto);
+        log.info("dto: {}", dto);
         int feedAffectedRows = mapper.insFeed(dto);
         String target = "/feed/" + dto.getIfeed();
 
@@ -78,13 +74,10 @@ public class FeedService {
         if(picsAffectedRows == 0) {
             return new ResVo(Const.FAIL);
         }
-
         //2 좋아요
         int favAffectedRows = favMapper.delFeedFavAll(dto);
-
         //3 댓글
         int commentAffectedRows = commentMapper.delFeedCommentAll(dto);
-
         //4 피드
         int feedAffectedRows = mapper.delFeed(dto);
         return new ResVo(Const.SUCCESS);
