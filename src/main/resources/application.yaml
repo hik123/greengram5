@@ -34,3 +34,24 @@ server:
 
 fcm:
   certification: serviceAccountKey.json
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "prod1"
+
+file:
+  dir: /home/download/
+server:
+  port: 8083
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "prod2"
+server:
+  port: 8084

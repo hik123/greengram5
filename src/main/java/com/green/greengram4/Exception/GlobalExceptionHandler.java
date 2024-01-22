@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {  // 여기에 맞는 에러가 있으면 throw 잡음
+public class GlobalExceptionHandler{ //extends ResponseEntityExceptionHandler {  // 여기에 맞는 에러가 있으면 throw 잡음
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException e) {
         log.warn("IllegalArgumentException", e);
