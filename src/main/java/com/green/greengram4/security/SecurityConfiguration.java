@@ -32,6 +32,8 @@ public class SecurityConfiguration {
                                                                     , "/pic/**"        // 슬래시, /** 빠졌는지 확인
                                                                     , "/feed/**"
                                                                     , "/feed"
+                                                                    , "/signin"
+                                                                    , "/signup"
                                                                     , "/fimg/**"
                                                                     , "/css/**"
                                                                     , "/static/**"

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import static org.springframework.web.util.WebUtils.getCookie;
 
-@Component
+@Component //빈등록 >> CookieUtils객체화가됨
 public class CookieUtils {
     public Cookie getCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();

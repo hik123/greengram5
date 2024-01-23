@@ -12,7 +12,7 @@ public class AppProperties {
 
     @Getter
     @Setter
-    public class Jwt {
+    public static class Jwt { //이너클래스 static으로 안하면 속성에 접근이가능해짐
         private String secret;
         private String headerSchemeName;
         private String tokenType;
@@ -22,7 +22,7 @@ public class AppProperties {
 
         public void setRefreshTokenExpiry(long refreshTokenExpiry) {
             this.refreshTokenExpiry = refreshTokenExpiry;
-            this.refreshTokenCookieMaxAge = (int) refreshTokenExpiry / 1000;
+            this.refreshTokenCookieMaxAge = (int) (refreshTokenExpiry * 0.001);
         }
     }
 }
