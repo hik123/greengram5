@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
-@ConfigurationProperties(prefix = "app")
+@ConfigurationProperties(prefix = "app") //yaml파일에 app / yaml파일내용을 가지고 객체화해주고 싶으면 사용? 메인클래스에 @ConfigurationPropertiesScan
 public class AppProperties {
 
     private final Jwt jwt = new Jwt();

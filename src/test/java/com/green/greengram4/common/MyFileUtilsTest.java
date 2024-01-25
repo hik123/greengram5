@@ -19,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @ExtendWith(SpringExtension.class)
 @Import({ MyFileUtils.class })
-@TestPropertySource(properties = {
+@TestPropertySource(properties = {  //
         "file.dir=D:/home/download",
 })
 public class MyFileUtilsTest {
 
-    @Autowired
+    @Autowired //
     private MyFileUtils myFileUtils;
 
     @Test

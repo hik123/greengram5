@@ -34,11 +34,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(CharEncodingConfig.class)
 //@MockMvcConfig //한글이 깨지지 않기위해 줌
 @WebMvcTest(FeedController.class) //spring 컨테이너 올려줌 빈등록된 컨트롤러들을
-class FeedControllerTest {
+class FeedControllerTest {   //슬라이스 테스트
 
-    @Autowired private MockMvc mvc;
-    @Autowired private ObjectMapper mapper;
-    @MockBean private FeedService service;            //객체형은 null, list는 사이즈0짜리 리턴
+    @Autowired private MockMvc mvc; //테스트때 필요
+    @Autowired private ObjectMapper mapper; //json to object 젝슨
+    @MockBean private FeedService service; //mockbean 가짜 빈         //객체형은 null, list는 사이즈0짜리 리턴
     @MockBean private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
@@ -64,7 +64,7 @@ class FeedControllerTest {
     }
 
     @Test
-    void getFeedAll() throws Exception {
+    void getFeedAll() throws Exception { // 테스트는 given세팅 when실행 then검증
 
         List<FeedSelVo> list = new ArrayList();
         FeedSelVo vo = new FeedSelVo();
@@ -93,7 +93,7 @@ class FeedControllerTest {
                         .params(params)
         )
                 .andExpect(status().isOk())
-                .andExpect(content().string(mapper.writeValueAsString(list)))
+                .andExpect(content().string(mapper.writeValueAsString(list))) //리턴한걸 실제로 썼는지?
                 .andDo(print());
 
         verify(service).getFeedAll(any());

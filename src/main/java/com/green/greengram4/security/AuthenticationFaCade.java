@@ -11,7 +11,7 @@ public class AuthenticationFaCade {
 
         return (MyUserDetails)SecurityContextHolder
                                 .getContext()
-                                .getAuthentication()
+                                .getAuthentication() //비로그인 상태 >> null이 넘어오거나 0이넘어오면 ㅊ처리
                                 .getPrincipal();
 
     }

@@ -87,7 +87,7 @@ public class FeedService {
     public ResVo toggleFeedFav(FeedFavDto dto) {
         //ResVo - result값은 삭제했을 시 (좋아요 취소) 0, 등록했을 시 (좋아요 처리) 1
         int delAffectedRows = favMapper.delFeedFav(dto);
-        if(delAffectedRows == 1) {
+        if(delAffectedRows == 1) {;
             return new ResVo(Const.FEED_FAV_DEL);
         }
         int insAffectedRows = favMapper.insFeedFav(dto);

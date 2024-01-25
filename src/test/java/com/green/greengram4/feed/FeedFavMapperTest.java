@@ -13,8 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
     @MybatisTest
-    @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) //
-    class FeedFavMapperTest {
+    @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // DB교체하지 않음 원래db사용
+
+class FeedFavMapperTest {
         @Autowired
         private FeedFavMapper mapper;
 

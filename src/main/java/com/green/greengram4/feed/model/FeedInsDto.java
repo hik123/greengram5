@@ -16,5 +16,6 @@ public class FeedInsDto {
     private String contents;
     private String location;
     //private List<String> pics;
+    @JsonIgnore
     private List<MultipartFile> pics;
 }

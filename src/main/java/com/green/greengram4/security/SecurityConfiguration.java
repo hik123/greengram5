@@ -12,14 +12,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+public class SecurityConfiguration { //시큐리티 세팅
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
+    @Bean // 스프링컨테이너가 호출함 어느 세팅에 쓰인다는것 ,
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(http -> http.disable())
+                .httpBasic(http -> http.disable()) //람다식
                 .formLogin(form -> form.disable())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/signin"
@@ -45,7 +45,7 @@ public class SecurityConfiguration {
                                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // // add기존거 두고 추가 // set 기존꺼 싹다 덮어씀 지우고 추가
                 .exceptionHandling(except -> {
                     except.authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                             .accessDeniedHandler(new JwtAccessDeniedHandler());
