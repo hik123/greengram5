@@ -10,6 +10,7 @@ import com.green.greengram4.security.AuthenticationFaCade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class FeedService {
     //
 
 
+    @Transactional
     public FeedPicsInsDto postFeed(FeedInsDto dto) {
         dto.setIuser(authenticationFaCade.getLoginUserPk());
         log.info("dto: {}", dto);
