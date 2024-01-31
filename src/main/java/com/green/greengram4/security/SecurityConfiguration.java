@@ -42,6 +42,7 @@ public class SecurityConfiguration { //시큐리티 세팅
                                                                     , "/swagger.html"
                                                                     , "/swagger-ui/**"
                                                                     , "/v3/api-docs/**"
+                                                                    , "/api/open/**"
                                         ).permitAll()
                         .anyRequest().authenticated()
                 )
