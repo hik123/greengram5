@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -48,7 +50,6 @@ public class UserService {
 
     public UserSigninVo signin(HttpServletResponse res, UserSigninDto dto) {
 
-
         UserSelDto sDto = new UserSelDto();
 
         sDto.setUid(dto.getUid());
@@ -59,10 +60,10 @@ public class UserService {
         } else if(!passwordEncoder.matches(dto.getUpw(), entity.getUpw())) {
             throw new RestApiException(AuthErrorCode.VALID_PASSWORD);
         }
-
         MyPrincipal myPrincipal = MyPrincipal.builder()
                                             .iuser(entity.getIuser())
                                             .build();
+        myPrincipal.getRoles().add(entity.getRole());
 
         String at = jwtTokenProvider.generateAccessToken(myPrincipal);
         String rt = jwtTokenProvider.generateRefreshToken(myPrincipal);

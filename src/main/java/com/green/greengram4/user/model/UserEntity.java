@@ -10,6 +10,7 @@ public class UserEntity {
     private String nm;
     private String pic;
     private String firebaseToken;
+    private String role;
     private String createdAt;
     private String updatedAt;
 }

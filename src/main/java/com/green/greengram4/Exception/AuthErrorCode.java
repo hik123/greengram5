@@ -17,6 +17,6 @@ public enum AuthErrorCode implements ErrorCode{
 
     private final HttpStatus httpStatus; // HttpStatus spring으로 import
     private final String message;
-
+    
 
     }
